@@ -8,25 +8,41 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
+import { blue } from '@material-ui/core/colors';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
+  
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
-  liste: {
-    width: '100%',
-    maxWidth: '100%',
-    backgroundColor: theme.palette.background.paper,
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
+  grid: {
+    width:'100%',
+  }
+  
 }));
 
 export default function SimpleAccordion() {
   const classes = useStyles();
 
+  
+  /*const [paliers, setDatas] = React.useState([])
+
+  React.useEffect(() => {
+    fetch("http://localhost:3001/comments")
+      .then(response => response.json())
+      .then(result => setDatas(result))
+      .catch(error => console.log('error', error));
+  }, [])
+    
+  console.log(paliers);*/
   return (
     <div className={classes.root}>
       <Accordion>
@@ -39,39 +55,18 @@ export default function SimpleAccordion() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            <div className={classes.liste}>
-                <List >
-                    <ListItem >
-                    <Typography variant="subtitle1" gutterBottom>
-                        Palier 3 : 10 minutes
-                    </Typography>
-                    
-                    </ListItem>
-                    <Divider />
-                    <ListItem >
-                    <Typography variant="subtitle1" gutterBottom>
-                        Palier 6 : 15 minutes
-                    </Typography>
-                    
-                    </ListItem>
-                    <Divider />
-                </List>
-                
-            </div>
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
+            <Grid  className="grid" container spacing={3}>
+              <Grid item xs={3}>
+              <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
+          aria-controls="panel1a-content"
+          id="panel1a-header"
         >
-          <Typography className={classes.heading}> 20 mètres </Typography>
+          <Typography className={classes.heading}>Accordion 1</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-          <div className={classes.liste}>
+        <div className={classes.liste}>
                 <List >
                     <ListItem >
                     <Typography variant="subtitle1" gutterBottom>
@@ -104,9 +99,34 @@ export default function SimpleAccordion() {
                 </List>
                 
             </div>
+        </AccordionDetails>
+      </Accordion>
+              </Grid>
+              
+              
+              
+              <Grid item xs={3}>
+              <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading}>Accordion 1</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+            sit amet blandit leo lobortis eget.
           </Typography>
         </AccordionDetails>
       </Accordion>
+              </Grid>
+            </Grid>
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+     
       
     </div>
   );

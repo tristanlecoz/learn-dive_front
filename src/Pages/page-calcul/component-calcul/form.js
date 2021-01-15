@@ -54,11 +54,34 @@ const marks = [
 
   const Formulaire = () => {
       const classes = useStyles();
+      const [data,setData]=React.useState();
+      const resultForm = {
+        taille:'',
+        pression:'',
+        profondeur:'',
+        duree:'',
+        table:'',
+      }
+
+      
+
+      const handleChange = (e) =>
+      {
+        setData({
+          ...data,
+          [e.target.name]:e.target.value.trim()
+        }
+        )
+      }
+      React.useEffect(()=>{
+        console.log(data)
+      },[data]);
+
       return(
         <div id="formulaire">
             <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="grouped-native-select">Taille de la bouteille</InputLabel>
-                <Select native defaultValue="" id="grouped-native-select">
+                <Select native onChange={handleChange} name="taille"  id="grouped-native-select">
                 <option aria-label="None" value=""></option>
                 <option aria-label="None" value="9">9</option>
                 <option aria-label="None" value="12">12</option>
@@ -69,32 +92,19 @@ const marks = [
             </FormControl>
             <FormControl className={classes.formControl}>
             
-                <TextField id="standard-basic" label="Pression de la bouteille (en bars)" defaultValue="200"/>
+                <TextField id="standard-basic" name="pression"onChange={handleChange} label="Pression de la bouteille (en bars)" defaultValue="200"/>
             </FormControl>
             <FormControl className={classes.formControl}>
             
-                <Typography id="discrete-slider" gutterBottom>
-                    Temperature
-                </Typography>
-                <Slider
-                    defaultValue={0}
-                    getAriaValueText={valuetext}
-                    aria-labelledby="discrete-slider"
-                    valueLabelDi splay="auto"
-                    step={1}
-                    marks
-                    min={0}
-                    max={63}
-                    marks={marks}
-                />
+               <TextField id="standard-basic" name="profondeur"onChange={handleChange} label="Profondeur"/>
             </FormControl>
             <FormControl className={classes.formControl}>
             
-                <TextField with={500} id="standard-basic" label="Durée de la plongée avant remontée (mins)"/> 
+                <TextField onChange={handleChange} name="duree" with={500} id="standard-basic" label="Durée de la plongée avant remontée (mins)"/> 
             </FormControl>
             <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="grouped-native-select">Choix de la table</InputLabel>
-                <Select native defaultValue="" id="grouped-native-select">
+                <Select native defaultValue="" id="grouped-native-select" onChange={handleChange} name="table">
                 <option aria-label="None" value=""></option>
                 <option aria-label="None" value="0">Buhlman</option>
                 <option aria-label="None" value="1">MN90</option>

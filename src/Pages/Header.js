@@ -11,6 +11,7 @@ import {
     Link
   } from "react-router-dom";
 import Calcul from './page-calcul/Calcul';
+import UserForm from './page-calcul/calcultwo';
 import Tables from './page-table/Tables';
 import './Header.css'
 
@@ -44,9 +45,9 @@ const Header = () => {
             <Link className='lien' to="/tables"> <p>Visualisation des tables</p></Link>
             </Toolbar>
         </AppBar>
-
+      
         <Switch>
-          <Route path="/calcul">
+          <Route path="/calcul"> 
             <Calcul />
           </Route>
           <Route path="/tables">

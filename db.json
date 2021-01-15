@@ -1,0 +1,18 @@
+{
+  "profondeur":[
+    {
+    "temps": [
+      {
+        "id":0,
+        "temps": 21,
+        "palier15": "3",
+        "palier12": "4",
+        "palier9": "5",
+        "palier6": "10",
+        "palier3": "26"
+      }
+     ]
+    
+    }
+  ]
+}
