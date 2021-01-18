@@ -18,14 +18,24 @@ const useStyles = makeStyles((theme) => ({
 
 const Tables = () => {
   const classes=useStyles();
+  const [loadtable,setLoadtable]=React.useState();
+  
+
+  React.useEffect(()=>{
+    console.log(loadtable)
+  },[loadtable]);
+
+ 
+
+
   return (
     <div id="tableau">
         <Container maxWidth="lg">
         <Typography edge="start" variant="h4" className={classes.title}>
           Visualisation des Tables
         </Typography>    
-        <Formulaire />  
-        <SimpleAccordion />
+        <Formulaire updateloadtable={setLoadtable} />  
+        <SimpleAccordion idtable={loadtable}/>
         
       </Container>
       </div>

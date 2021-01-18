@@ -4,8 +4,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import Slider from '@material-ui/core/Slider';
-import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -17,52 +17,13 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-  function valuetext(value) {
-    return `${value}°C`;
-}
-
-const marks = [
-    {
-      value: 0,
-      label: '0',
-    },
-    {
-        value: 10,
-        label: '10',
-      },
-    {
-      value: 20,
-      label: '20',
-    },
-    {
-        value: 30,
-        label: '30',
-      },
-    {
-      value: 40,
-      label: '40',
-    },
-    {
-        value: 50,
-        label: '50',
-      },
-    {
-      value: 60,
-      label: '60',
-    },
-  ];
+ 
 
   const Formulaire = () => {
       const classes = useStyles();
       const [data,setData]=React.useState();
-      const resultForm = {
-        taille:'',
-        pression:'',
-        profondeur:'',
-        duree:'',
-        table:'',
-      }
-
+      const [resultForm,setresult]=React.useState();
+        
       
 
       const handleChange = (e) =>
@@ -74,8 +35,21 @@ const marks = [
         )
       }
       React.useEffect(()=>{
-        console.log(data)
+        //let url ="http://127.0.0.1:8000/api/calcul?"+data.table+"&profondeur="+data.profondeur+"&dureePlongee="+data.duree;
+        //console.log(url);
+      
       },[data]);
+
+
+      const fetchtogetdata =()=>{
+        let url ="http://127.0.0.1:8000/api/calcul?table="+data.table+"&profondeur="+data.profondeur+"&dureePlongee="+data.duree;
+        console.log(url);
+        fetch(url)
+        .then(response => response.json())
+        .then(result => setresult(result))
+        .catch(error => console.log('error', error));
+        console.log(resultForm);
+      }
 
       return(
         <div id="formulaire">
@@ -112,6 +86,10 @@ const marks = [
                 
                 </Select>
             </FormControl>
+            <br></br>
+            <Button variant="contained" color="primary" onClick={fetchtogetdata}>
+               Calculer
+            </Button>
         </div>
       );
   }
