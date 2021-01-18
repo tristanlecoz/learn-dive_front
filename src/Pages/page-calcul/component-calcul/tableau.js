@@ -1,64 +1,124 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 
 
 
 const useStyles = makeStyles((theme) => ({
-    table: {
-      minWidth: 650,
+   
+    root: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.paper,
+      marginTop:"4%",
+      width:'50%',
+      marginLeft:'25%',
     },
-    tableau: {
-        marginTop:"4%",
-    }
   }));
 
 
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box p={3}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
   }
   
-  const rows = [
-    createData(5, 159, 6.0, 24),
-    createData(10, 237, 9.0, 37),
-    createData(20, 262, 16.0, 24),
-    createData(25, 305, 3.7, 67),
-    createData(30, 356, 16.0, 49),
-  ];
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+  };
+  
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
 
-  const Tableau = ()  =>  {
+  
+
+  const Tableau = (props)  =>  {
       const classes=useStyles();
       
+      const [value, setValue] = React.useState(0);
+    
+    
+      const handleChange = (event, newValue) => {
+        setValue(newValue);
+      };
+
+      const [resultForm,setresult]=React.useState([])
+      React.useEffect(()=>{
+        console.log(props.updateurl);
+        fetch(props.updateurl)
+        .then(response => response.json())
+        .then(result => setresult(result))
+        .catch(error => console.log('error', error));
+        console.log(resultForm);
+      
+      },[props.updateurl]);
+      
       return(
-        <TableContainer component={Paper} className={classes.tableau}>
-        <Table className={classes.table} size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Temps</TableCell>
-              <TableCell >Profondeur</TableCell>
-              <TableCell >Oxygène</TableCell>
-              <TableCell >Etat (descente,monter pallier,ect..)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
-                <TableCell >{row.name}</TableCell>
-                <TableCell >{row.calories}</TableCell>
-                <TableCell >{row.fat}</TableCell>
-                <TableCell >{row.carbs}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        <div className={classes.root}>
+        <AppBar position="static">
+          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+            <Tab label="Paliers" {...a11yProps(0)} />
+            <Tab label="Temps" {...a11yProps(1)} />
+            <Tab label="Oxygénation" {...a11yProps(2)} />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+            <Typography variant="h6" gutterBottom>
+               Palier 3 : {resultForm.palier3}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+               Palier 6 : {resultForm.palier6}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+               Palier 9 : {resultForm.palier9}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+               Palier 12 : {resultForm.palier12}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+               Palier 15 : {resultForm.palier15}
+            </Typography>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+            <Typography variant="h6" gutterBottom>
+               Temps total de remontée : {resultForm.tempsTotalDeRemontee}
+               <br></br>
+               Temps total de plongée : {resultForm.tempsTotalDePlongee}
+            </Typography>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+            <Typography variant="h6" gutterBottom>
+                  Volume restant(en litre) : {resultForm.volumeRestant}
+                  <br></br>
+                  Pression restante (en bar) : {resultForm.pressionRestante}
+            </Typography>
+        </TabPanel>
+      </div>
       );
 
   }

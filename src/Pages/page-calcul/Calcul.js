@@ -12,18 +12,22 @@ const useStyles = makeStyles((theme) => ({
     },
       
   }));
-
+ 
 
 const Calcul = () => {
  const classes = useStyles();
+ const [url,setUrl]=React.useState();
+ 
+
+
  return (
     <div id="calcul">
       <Container maxWidth="lg">
       <Typography edge="start" variant="h4" className={classes.title}>
          Calcul du profil de plongée
       </Typography>      
-      <Formulaire />
-      <Tableau />
+      <Formulaire updateurl={setUrl}/>
+      <Tableau updateurl={url}/>
     </Container>
     </div>
   );

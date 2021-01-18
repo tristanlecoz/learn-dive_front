@@ -18,14 +18,19 @@ const useStyles = makeStyles((theme) => ({
 
 
  
-
-  const Formulaire = () => {
+                  
+  const Formulaire = (props) => {
       const classes = useStyles();
       const [data,setData]=React.useState();
-      const [resultForm,setresult]=React.useState();
-        
-      
+      const [tables, settables] = React.useState([]);
 
+      React.useEffect(() => {
+        fetch("http://127.0.0.1:8000/api/tables")
+          .then(response => response.json())
+          .then(result => settables(result))
+          .catch(error => console.log('error', error));
+      }, [])
+     
       const handleChange = (e) =>
       {
         setData({
@@ -33,22 +38,13 @@ const useStyles = makeStyles((theme) => ({
           [e.target.name]:e.target.value.trim()
         }
         )
+       
       }
-      React.useEffect(()=>{
-        //let url ="http://127.0.0.1:8000/api/calcul?"+data.table+"&profondeur="+data.profondeur+"&dureePlongee="+data.duree;
-        //console.log(url);
-      
-      },[data]);
 
+      
 
       const fetchtogetdata =()=>{
-        let url ="http://127.0.0.1:8000/api/calcul?table="+data.table+"&profondeur="+data.profondeur+"&dureePlongee="+data.duree;
-        console.log(url);
-        fetch(url)
-        .then(response => response.json())
-        .then(result => setresult(result))
-        .catch(error => console.log('error', error));
-        console.log(resultForm);
+        props.updateurl("http://127.0.0.1:8000/api/calcul?table="+data.table+"&profondeur="+data.profondeur+"&dureePlongee="+data.duree+"&volumeBouteille="+data.taille+"&pressionRemplissage="+data.pression); 
       }
 
       return(
@@ -66,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
             </FormControl>
             <FormControl className={classes.formControl}>
             
-                <TextField id="standard-basic" name="pression"onChange={handleChange} label="Pression de la bouteille (en bars)" defaultValue="200"/>
+                <TextField id="standard-basic" name="pression"onChange={handleChange} label="Pression de la bouteille (en bars)"/>
             </FormControl>
             <FormControl className={classes.formControl}>
             
@@ -78,12 +74,11 @@ const useStyles = makeStyles((theme) => ({
             </FormControl>
             <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="grouped-native-select">Choix de la table</InputLabel>
-                <Select native defaultValue="" id="grouped-native-select" onChange={handleChange} name="table">
+                <Select native defaultValue="" name="table" onChange={handleChange} id="grouped-native-select">
                 <option aria-label="None" value=""></option>
-                <option aria-label="None" value="0">Buhlman</option>
-                <option aria-label="None" value="1">MN90</option>
-                
-                
+                {tables.map((table) => ( 
+                <option aria-label="None" value={table.id}>{table.nom}</option>
+                ))}
                 </Select>
             </FormControl>
             <br></br>
